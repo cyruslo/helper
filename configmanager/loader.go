@@ -1,8 +1,8 @@
 package configmanager
 
 import (
-	//"git.huoys.com/qp/luabridge"
 	"github.com/bilibili/kratos/pkg/conf/paladin"
+	"github.com/cyruslo/helper/luabridge"
 	"reflect"
 	"regexp"
 	"strings"
@@ -179,8 +179,8 @@ func isJsonFile(fileContent string) bool {
 }
 
 func isLuaFile(fileContent string) bool {
-	//if _, err := luabridge.NewLuaVMByString(fileContent);err != nil {
-	//	return false
-	//}
+	if _, err := luabridge.SafeLoad(fileContent);err != nil {
+		return false
+	}
 	return true
 }

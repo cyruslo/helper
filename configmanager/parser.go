@@ -2,8 +2,9 @@ package configmanager
 
 import (
 	"encoding/json"
-	//"git.huoys.com/qp/luabridge"
+	lua "github.com/AzureWrathCyd/gopher-lua"
 	"github.com/BurntSushi/toml"
+	"github.com/cyruslo/helper/luabridge"
 )
 
 type parser func(fileContent string, config interface{}) (err error)
@@ -16,6 +17,13 @@ func luaParser(fileContent string, config interface{}) (err error) {
 	//if err = vm.Get(-1, config);err != nil {
 	//	return
 	//}
+	var vm *lua.LState
+	if vm, err = luabridge.SafeLoad(fileContent); err != nil {
+		return
+	}
+	if err = luabridge.SafeCall(vm, "", config); err != nil {
+		return
+	}
 	return
 }
 
